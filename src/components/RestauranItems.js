@@ -7,9 +7,19 @@ const RestaurantItems = ({itemsCards}) => {
 
   const menuItemData = itemsCards.map((x) => x.card.info) || [];
   const dispatch = useDispatch();//it can't call inside the func hence we need to initialise and use it
- const handleAddItems = (item)=>{
-    dispatch(addItem(item));
-   }
+  const items = useSelector((store) => store.cart.items);
+  const handleAddItems = (item) => {
+    console.log(items);
+    const isAlreadyInCart = items.some((cartItem) => cartItem.id === item.id);
+
+  if (isAlreadyInCart) {
+    alert("Item is already in the cart!");
+    return; // Don't dispatch if duplicate
+  }
+
+  dispatch(addItem(item));
+
+  }
  {/*
   dispatch(actionName(playload))
   import useDispatch & action = addItem
